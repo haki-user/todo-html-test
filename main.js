@@ -36,7 +36,7 @@ function deleteTodo(id) {
       let tr = document.getElementById(id);
       if (!tr) return;
       tr.innerHTML = "";
-      showMessage("Deleted", 'success');
+      showMessage("Deleted", "success");
     })
     .catch((err) => {
       //   alert(err);
@@ -114,7 +114,7 @@ updateForm.addEventListener("submit", (event) => {
   const formData = new FormData(updateForm);
   const id = formData.get("id");
   const searchParams = new URLSearchParams(formData).toString();
-  fetch(`/todos/${id}`, {
+  fetch(`/todos/id`, {
     method: "PUT",
     body: searchParams,
     headers: {
@@ -138,8 +138,14 @@ updateForm.addEventListener("submit", (event) => {
         formData.get("description")
       );
       const tdId = createTd("id", formData.get("id"));
-
-      tr.append(tdTitle, tdDescription, tdId);
+      const tdAction = document.createElement("td");
+      tdAction.setAttribute("id", "action");
+      const tdButton = document.createElement("button");
+      tdButton.innerHTML = "delete";
+      tdButton.setAttribute("class", "button");
+      tdButton.onclick = () => deleteTodo(id);
+      tdAction.appendChild(tdButton);
+      tr.append(tdTitle, tdDescription, tdId, tdAction);
     })
     .catch((err) => {
       //   alert(err);
@@ -167,7 +173,7 @@ getForm.addEventListener("submit", (event) => {
   })
     .then((res) => {
       if (!res.ok) {
-        showMessage(`Failed, ${res.status}`, 'error');
+        showMessage(`Failed, ${res.status}`, "error");
         throw Error(res.status);
       }
       return res;

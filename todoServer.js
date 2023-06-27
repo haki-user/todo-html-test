@@ -146,8 +146,8 @@ async function updateTodoById(req, res) {
 // delete
 async function deleteTodoById(req, res) {
   const id = req.params.id;
-  console.log(id);
-console.log(req.params);
+  // console.log(id);
+// console.log(req.params);
   const todoItems = await fs.readFile('./todoData.txt', 'utf-8');
   let todoItemsArr = todoItems.trim().split('\n');
 
