@@ -24,7 +24,7 @@ function createTd(className, content) {
 
 // }
 function deleteTodo(id) {
-  fetch(`http://localhost:3000/todos/${id}`, {
+  fetch(`/todos/${id}`, {
     method: "DELETE",
   })
     .then((res) => {
@@ -70,7 +70,7 @@ function updateTable(data) {
 }
 // get all
 function getTodos() {
-  fetch("http://127.0.0.1:3000/todos")
+  fetch("/todos")
     .then((response) => response.json())
     .then(updateTable)
     .catch((err) => {
@@ -88,7 +88,7 @@ addForm.addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent the default form submission
   const formData = new FormData(addForm);
   const searchParams = new URLSearchParams(formData).toString();
-  fetch("http://localhost:3000/todos", {
+  fetch("/todos", {
     method: "POST",
     body: searchParams,
     headers: {
@@ -114,7 +114,7 @@ updateForm.addEventListener("submit", (event) => {
   const formData = new FormData(updateForm);
   const id = formData.get("id");
   const searchParams = new URLSearchParams(formData).toString();
-  fetch(`http://localhost:3000/todos/${id}`, {
+  fetch(`/todos/${id}`, {
     method: "PUT",
     body: searchParams,
     headers: {
@@ -162,7 +162,7 @@ getForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const formData = new FormData(getForm);
   const id = formData.get("id");
-  fetch(`http://localhost:3000/todos/${id}`, {
+  fetch(`/todos/${id}`, {
     method: "get",
   })
     .then((res) => {
