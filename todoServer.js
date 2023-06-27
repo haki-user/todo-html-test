@@ -48,6 +48,7 @@ const app = express();
 const cors = require('cors');
 app.use(cors());
 
+const PORT = process.env.PORT || 3000;
 // app.use(bodyParser.json());
 // app.use(express.urlencoded({ extended: true }));
 
@@ -201,8 +202,8 @@ app.use((req, res) => {
 //   console.log("Server listening on 4000");
 // });
 
-app.listen(3000, () => {
-  console.log("Server listening on port 3000");
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
 
-module.exports = app;
+// module.exports = app;
