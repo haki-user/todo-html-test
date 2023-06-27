@@ -71,11 +71,18 @@ function updateTable(data) {
 // get all
 function getTodos() {
   fetch("/todos")
+    .then((res) => {
+      if (res.ok) {
+        return res;
+      }
+      showMessage(`Empty, ${res.status}`, 'error');
+      throw Error("Empty");
+    })
     .then((response) => response.json())
     .then(updateTable)
     .catch((err) => {
       //   alert(err);
-      showMessage(`Failed, ${err}`, "error");
+      if (err.message != "Empty") showMessage(`Failed, ${err}`, "error");
       console.log(err);
     });
 }

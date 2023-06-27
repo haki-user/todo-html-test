@@ -97,14 +97,18 @@ async function getAllTodos(req, res) {
   let todoItems = await fs.readFile('./todoData.txt', 'utf-8');
   let todoItemsArr = [];
   todoItems.trim().split('\n').forEach(str => {
-    todoItemsArr.push(JSON.parse(str));
+    if(str) todoItemsArr.push(JSON.parse(str));
   });
+  if(todoItemsArr.length === 0) {
+    res.status(404).send("Not found");
+    return;
+  }
   res.json(todoItemsArr);
 }
 
 // get:id
 async function getTodoById(req, res) {
-  const id = req.params.id;
+  const id = req.params.id.trim();
   let todoItems = await fs.readFile('./todoData.txt', 'utf-8');
   const todoItemsArr = todoItems.trim().split('\n');
 
@@ -123,15 +127,17 @@ async function getTodoById(req, res) {
 
 // update
 async function updateTodoById(req, res) {
-  const id = req.body.id;
+  const id = req.body.id.trim();
   const body = req.body;
-
+  console.log(body);
+  console.log(typeof id)
   const todoItems = await fs.readFile('./todoData.txt', 'utf-8');
   let todoItemsArr = todoItems.trim().split('\n');
 
   for(let i = 0; i<todoItemsArr.length; i++) {
     const obj = JSON.parse(todoItemsArr[i]);
-    if (obj.id === id) {
+    console.log(id+",", obj.id, obj.id === id, obj.id == id);
+    if (obj.id === id.trim()) {
       todoItemsArr[i] = JSON.stringify({ data:{ title:body.title, description:body.description }, id });
 
       await fs.writeFile('./todoData.txt', todoItemsArr.join('\n')+'\n', 'utf-8');
@@ -145,7 +151,7 @@ async function updateTodoById(req, res) {
 
 // delete
 async function deleteTodoById(req, res) {
-  const id = req.params.id;
+  const id = req.params.id.trim();
   // console.log(id);
 // console.log(req.params);
   const todoItems = await fs.readFile('./todoData.txt', 'utf-8');
